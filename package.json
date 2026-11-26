@@ -1,0 +1,12 @@
+{
+  "name": "life-on-a-margin-website",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "python3 tests/smoke_test.py"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.57.0",
+    "axe-core": "4.11.1"
+  }
+}
