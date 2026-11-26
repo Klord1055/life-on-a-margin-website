@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#0c1c17">
   <title>Life on a Margin</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="guide-search.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -30,34 +31,37 @@
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="hero frame" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow">A financial career and life simulation RPG</p>
-        <h1 id="hero-title">Life on<br>a <em>Margin</em><span class="period">.</span></h1>
-        <p class="tagline">You can beat the market. You can’t beat time.</p>
-        <p class="description">One dusty suit. One unpredictable economy. One life. Start from nothing in an evolving American economy, build a career and decide what a good life is worth to you.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#game">Explore the game <span aria-hidden="true">↓</span></a>
-          <a class="button button-secondary" href="#editions">Release status <span aria-hidden="true">↗</span></a>
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="frame hero-inner">
+        <div class="hero-heading">
+          <p class="eyebrow">A financial career and life simulation RPG</p>
+          <h1 id="hero-title">Life on<br>a <em>Margin</em></h1>
+        </div>
+        <figure class="hero-art">
+          <img src="assets/market-at-dusk.png" alt="Original concept art of a suited traveler looking toward a stock exchange on a rain-dark street at dusk." width="448" height="344" fetchpriority="high">
+          <figcaption>
+            <span class="art-dot" aria-hidden="true"></span>
+            Original concept art
+            <span class="divider" aria-hidden="true"></span>
+            <span class="art-caption-title">Market at dusk</span>
+          </figcaption>
+        </figure>
+        <div class="hero-pitch">
+          <p class="tagline">You can beat the market. You can’t beat time.</p>
+          <p class="description">One dusty suit. One unpredictable economy. One life.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#game">Explore the game</a>
+            <a class="button button-secondary" href="#editions">Release status</a>
+          </div>
         </div>
       </div>
-      <figure class="hero-art">
-        <img src="assets/market-at-dusk.png" alt="Original concept art of a suited traveler looking toward a stock exchange on a rain-dark street at dusk." width="448" height="344" fetchpriority="high">
-        <figcaption>
-          <span class="art-dot" aria-hidden="true"></span>
-          Original concept art
-          <span class="divider" aria-hidden="true"></span>
-          <span class="art-caption-title">Market at dusk</span>
-        </figcaption>
-      </figure>
     </section>
 
     <div class="game-band" id="game">
       <section class="frame game-section" aria-labelledby="game-title">
-        <p class="eyebrow">The game</p>
         <div class="section-intro">
           <h2 id="game-title">What will you build<br>with <em>one life?</em></h2>
-          <p>Life on a Margin is designed around the decisions behind the numbers. What you do for work, how much risk you take and who you make time for can shape the years that follow.</p>
+          <p>Start from nothing in an evolving American economy. What you do for work, how much risk you take and who you make time for can shape the years that follow.</p>
         </div>
         <div class="features">
           <article>
@@ -109,20 +113,30 @@
           <p class="guide-status">Both editions are in development.</p>
           <p>Check the <a href="#editions">release status</a> for confirmed browser and download links. The notes here describe the intended experience.</p>
         </div>
-        <dl class="guide-list">
-          <div>
-            <dt>Choose an edition</dt>
-            <dd>The First Trade introduces the decisions that connect work, investing and everyday life. Life on a Margin is the downloadable game and is being developed for offline play, with Windows as the first target.</dd>
-          </div>
-          <div>
-            <dt>Read the terms of a decision</dt>
-            <dd>In a career assignment, separate the facts provided from the assumptions you need to make. Before placing a trade, compare the size of the position with the cash you have available and ask what would happen if the price moved against you.</dd>
-          </div>
-          <div>
-            <dt>Continue from a save</dt>
-            <dd>The planned demo workflow is to save progress in the browser and export a backup. Transfer instructions, supported versions, controls and system requirements will follow verification.</dd>
-          </div>
-        </dl>
+        <div class="guide-topics">
+          <form class="guide-search" role="search" aria-label="Player guide" hidden>
+            <label for="guide-query">Search guide topics</label>
+            <div class="guide-search-controls">
+              <input id="guide-query" type="search" aria-controls="guide-results" placeholder="Try “save” or “Windows”">
+              <button class="button button-secondary" type="reset">Clear</button>
+            </div>
+            <p class="guide-search-status" role="status"></p>
+          </form>
+          <dl class="guide-list" id="guide-results">
+            <div>
+              <dt>Choose an edition</dt>
+              <dd>The First Trade introduces the decisions that connect work, investing and everyday life. Life on a Margin is the downloadable game and is being developed for offline play, with Windows as the first target.</dd>
+            </div>
+            <div>
+              <dt>Read the terms of a decision</dt>
+              <dd>In a career assignment, separate the facts provided from the assumptions you need to make. Before placing a trade, compare the size of the position with the cash you have available and ask what would happen if the price moved against you.</dd>
+            </div>
+            <div>
+              <dt>Continue from a save</dt>
+              <dd>The planned demo workflow is to save progress in the browser and export a backup. Transfer instructions, supported versions, controls and system requirements will follow verification.</dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </section>
 

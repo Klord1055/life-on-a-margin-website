@@ -98,6 +98,40 @@ test("skip navigation and answer disclosures work with keyboard input", async ({
   }
 });
 
+test("the player guide filters topics locally and recovers from an empty search result", async ({ page }) => {
+  await page.goto("./#guide");
+  const search = page.getByRole("search", { name: "Player guide" });
+  const query = search.getByRole("searchbox", { name: "Search guide topics" });
+  const status = search.getByRole("status");
+  const topics = page.locator("#guide-results > div");
+
+  await expect(status).toHaveText("All 3 topics shown");
+  await query.fill("   BROWSER   backup  ");
+  await expect(status).toHaveText("1 topic found");
+  await expect(topics.filter({ visible: true })).toHaveText([/Continue from a save/]);
+  await query.press("Enter");
+  await expect(page).toHaveURL(/#guide$/);
+  await expect(query).toHaveValue("   BROWSER   backup  ");
+
+  await query.fill("zzz");
+  await expect(status).toHaveText("No matching topics. Try a shorter search.");
+  await expect(topics.filter({ visible: true })).toHaveCount(0);
+  await search.getByRole("button", { name: "Clear" }).click();
+  await expect(query).toBeFocused();
+  await expect(query).toBeEmpty();
+  await expect(topics.filter({ visible: true })).toHaveCount(3);
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("the guide still presents every topic", async ({ page }) => {
+    await page.goto("./#guide");
+    await expect(page.getByRole("search", { name: "Player guide" })).toBeHidden();
+    await expect(page.locator("#guide-results > div").filter({ visible: true })).toHaveCount(3);
+  });
+});
+
 test("the landing page passes an automated accessibility scan", async ({ page }) => {
   await page.goto("./");
   await page.getByText("Show the cash flow", { exact: true }).click();
