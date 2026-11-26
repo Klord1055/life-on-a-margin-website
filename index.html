@@ -19,13 +19,15 @@
       <nav aria-label="Main navigation">
         <a href="#game">The game</a>
         <a href="#editions">Editions</a>
+        <a href="#guide">Player guide</a>
+        <a href="#academy">Academy</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a class="status-link" href="#editions"><span></span> In development</a>
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="hero frame" id="top" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">A financial career and life simulation RPG</p>
@@ -95,6 +97,70 @@
           <p class="release-status"><span></span> Not yet released</p>
         </article>
       </div>
+    </section>
+
+    <section class="guide-band" id="guide" aria-labelledby="guide-title">
+      <div class="frame guide-inner">
+        <div>
+          <p class="eyebrow">Player guide</p>
+          <h2 id="guide-title">Getting started</h2>
+          <p class="guide-status">Both editions are in development.</p>
+          <p>Check the <a href="#editions">release status</a> for confirmed browser and download links. The notes here describe the intended experience.</p>
+        </div>
+        <dl class="guide-list">
+          <div>
+            <dt>Choose an edition</dt>
+            <dd>The First Trade introduces the decisions that connect work, investing and everyday life. Life on a Margin is the downloadable game and is being developed for offline play, with Windows as the first target.</dd>
+          </div>
+          <div>
+            <dt>Read the terms of a decision</dt>
+            <dd>In a career assignment, separate the facts provided from the assumptions you need to make. Before placing a trade, compare the size of the position with the cash you have available and ask what would happen if the price moved against you.</dd>
+          </div>
+          <div>
+            <dt>Continue from a save</dt>
+            <dd>The planned demo workflow is to save progress in the browser and export a backup. Transfer instructions, supported versions, controls and system requirements will follow verification.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="frame academy" id="academy" aria-labelledby="academy-title">
+      <p class="eyebrow">Financial Academy</p>
+      <div class="section-intro">
+        <h2 id="academy-title">Practice the <em>decisions.</em></h2>
+        <p>Three fictional examples connect finance concepts with decisions you might face in Life on a Margin. No account is needed.</p>
+      </div>
+      <div class="academy-grid">
+        <article>
+          <h3>Profit versus cash</h3>
+          <p>A shop records $12,000 in sales and $9,000 in operating expenses. It has collected $8,000 from customers. It has paid all $9,000 of expenses. Can it cover a $500 bill with cash generated this period alone?</p>
+          <details>
+            <summary>Show the cash flow</summary>
+            <p>It earns $3,000 on its income statement, but the specified operating cash flows are negative $1,000. Cash generated this period does not cover the bill. A beginning cash balance could still cover it.</p>
+          </details>
+        </article>
+        <article>
+          <h3>Compounding</h3>
+          <p>Two fictional accounts start at $1,000 and credit a fixed 5% once a year for two years. One keeps all the interest in the account. The other pays it out every year. How much total interest does each earn?</p>
+          <details>
+            <summary>Show the interest calculation</summary>
+            <p>Keeping the interest earns $50 the first year and $52.50 the second, for $102.50 total. Taking it out earns $50 each year, for $100 total. The difference is interest earned on the first year's interest.</p>
+          </details>
+        </article>
+        <article>
+          <h3>Concentration risk</h3>
+          <p>Two players each have a $1,000 portfolio. One puts it all in one fictional company. The other holds $250 each in four companies. If only the shared company falls 20%, what happens to each portfolio?</p>
+          <details>
+            <summary>Show the portfolio impact</summary>
+            <p>The first loses $200 (20%) and the second loses $50 (5%). If several holdings fall together, the second portfolio can still lose more. Spreading exposure can reduce the impact of a single company’s setback.</p>
+          </details>
+        </article>
+      </div>
+      <nav class="academy-references" aria-label="Further reading">
+        <a href="https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements">SEC financial statement guide</a>
+        <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator">Investor.gov compound interest calculator</a>
+        <a href="https://www.investor.gov/introduction-investing/investing-basics/glossary/diversification">Investor.gov diversification guide</a>
+      </nav>
     </section>
 
     <section class="faq-band" id="faq" aria-labelledby="faq-title">

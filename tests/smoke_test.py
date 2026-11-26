@@ -6,6 +6,11 @@ from urllib.parse import unquote, urlsplit
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+READING_SOURCES = {
+    "https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements",
+    "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator",
+    "https://www.investor.gov/introduction-investing/investing-basics/glossary/diversification",
+}
 
 
 class Page(HTMLParser):
@@ -50,9 +55,17 @@ class SiteSmokeTest(unittest.TestCase):
             with self.subTest(link=link):
                 self.assertTrue(link)
                 destination = urlsplit(link)
-                self.assertFalse(destination.scheme or destination.netloc)
-                self.assertFalse(destination.path)
-                self.assertIn(unquote(destination.fragment), self.page.ids)
+                if destination.netloc:
+                    self.assertEqual(destination.scheme, "https")
+                    self.assertIn(link, READING_SOURCES)
+                else:
+                    self.assertFalse(destination.scheme or destination.path)
+                    self.assertIn(unquote(destination.fragment), self.page.ids)
+
+    def test_guide_and_academy_are_linked_with_sources(self):
+        for fragment in ("#guide", "#academy"):
+            self.assertIn(fragment, self.page.links)
+        self.assertTrue(READING_SOURCES.issubset(self.page.links))
 
     def test_assets_exist_and_have_text_alternatives(self):
         for asset in self.page.assets:
