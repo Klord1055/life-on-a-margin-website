@@ -139,7 +139,7 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
   .features article, .edition, .academy-grid article, .support-grid article { padding: 16px; }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 940px) {
   .header-inner { flex-wrap: wrap; justify-content: space-between; gap: 7px 14px; padding-block: 14px 10px; }
   .header-inner nav { order: 3; flex: 1 0 100%; flex-wrap: wrap; gap: 0 17px; }
   nav a { display: flex; align-items: center; min-height: 38px; }
