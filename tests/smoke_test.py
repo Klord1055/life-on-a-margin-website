@@ -23,6 +23,7 @@ class Page(HTMLParser):
         self.details = 0
         self.summaries = 0
         self.images = []
+        self.update_dates = []
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
@@ -41,6 +42,8 @@ class Page(HTMLParser):
             self.details += 1
         if tag == "summary":
             self.summaries += 1
+        if tag == "time":
+            self.update_dates.append(attrs.get("datetime"))
 
 
 class SiteSmokeTest(unittest.TestCase):
@@ -66,6 +69,14 @@ class SiteSmokeTest(unittest.TestCase):
         for fragment in ("#guide", "#academy"):
             self.assertIn(fragment, self.page.links)
         self.assertTrue(READING_SOURCES.issubset(self.page.links))
+
+    def test_development_updates_and_help_are_linked(self):
+        for fragment in ("#updates", "#support"):
+            self.assertIn(fragment, self.page.links)
+        self.assertGreaterEqual(len(self.page.update_dates), 1)
+        self.assertTrue(all(self.page.update_dates))
+        self.assertIn("Internal save and resume test", self.html)
+        self.assertIn("Both editions are still in development.", self.html)
 
     def test_assets_exist_and_have_text_alternatives(self):
         for asset in self.page.assets:
