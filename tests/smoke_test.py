@@ -33,6 +33,8 @@ class Page(HTMLParser):
             self.links.append(attrs.get("href"))
         if tag == "link" and attrs.get("rel") == "stylesheet":
             self.assets.append(attrs["href"])
+        if tag == "script" and "src" in attrs:
+            self.assets.append(attrs["src"])
         if tag == "img":
             self.assets.append(attrs["src"])
             self.images.append(attrs)
