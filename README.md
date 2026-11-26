@@ -9,7 +9,7 @@ Life on a Margin is an open-world financial career and life simulation RPG in de
 | Life on a Margin: The First Trade | Free browser demo | In development |
 | Life on a Margin | Downloadable game, with Windows as the first target | In development |
 
-The website includes an overview, release status, a searchable getting-started guide, dated development updates and site help. Search runs in the browser, and all guide topics remain readable when JavaScript is disabled. The Financial Academy has three fictional worked examples with further reading from the SEC and Investor.gov. Its artwork is original concept art. Gameplay media and release links will be added after verification.
+The website includes an overview, dedicated pages for both editions, a searchable getting-started guide, dated development updates and site help. The edition pages distinguish development plans from verified internal results and current release status. Guide search runs in the browser, and all topics remain readable when JavaScript is disabled. The Financial Academy has three fictional worked examples with further reading from the SEC and Investor.gov. Its artwork is original concept art. Gameplay media and release links will be added after verification.
 
 ## Local preview
 
@@ -26,6 +26,6 @@ npx playwright install chromium
 npm test
 ```
 
-The browser suite checks an actual site preview at desktop, tablet and narrow mobile sizes. It exercises navigation, update and help links, guide search with and without JavaScript, keyboard disclosures, release copy, asset loading, page width and an automated axe scan. For another Chromium installation, set `CHROMIUM_PATH` to its executable or `PLAYWRIGHT_CHANNEL` to its named Playwright channel. Set `PYTHON` to override the local preview server's Python executable.
+The browser suite checks an actual site preview at desktop, tablet and narrow mobile sizes. It exercises navigation, edition pages and their release links, update and help links, guide search with and without JavaScript, keyboard disclosures, release copy, asset loading, page width and automated axe scans. For another Chromium installation, set `CHROMIUM_PATH` to its executable or `PLAYWRIGHT_CHANNEL` to its named Playwright channel. Set `PYTHON` to override the local preview server's Python executable.
 
 Set `WEBSITE_URL` to the deployed base URL to run the same browser checks against a deployment without starting a local server. These checks describe the prerelease website. Released builds, public distribution links, and full cross-browser and manual accessibility validation require separate checks.

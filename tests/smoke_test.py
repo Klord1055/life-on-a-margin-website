@@ -1,4 +1,4 @@
-"""Check the self-contained prerelease landing page with Python's standard library."""
+"""Check the self-contained prerelease pages with Python's standard library."""
 
 from html.parser import HTMLParser
 from pathlib import Path
@@ -6,6 +6,7 @@ from urllib.parse import unquote, urlsplit
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+EDITION_PAGES = ("editions/first-trade.html", "editions/life-on-a-margin.html")
 READING_SOURCES = {
     "https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements",
     "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator",
@@ -50,22 +51,44 @@ class Page(HTMLParser):
 
 class SiteSmokeTest(unittest.TestCase):
     def setUp(self):
-        self.html = (ROOT / "index.html").read_text(encoding="utf-8")
-        self.page = Page()
-        self.page.feed(self.html)
+        self.pages = {}
+        self.copy = {}
+        for relative_path in ("index.html", *EDITION_PAGES):
+            path = ROOT / relative_path
+            self.copy[path] = path.read_text(encoding="utf-8")
+            self.pages[path] = Page()
+            self.pages[path].feed(self.copy[path])
+        self.page = self.pages[ROOT / "index.html"]
+        self.html = self.copy[ROOT / "index.html"]
 
     def test_local_links_resolve(self):
-        self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
-        for link in self.page.links:
-            with self.subTest(link=link):
-                self.assertTrue(link)
-                destination = urlsplit(link)
-                if destination.netloc:
-                    self.assertEqual(destination.scheme, "https")
-                    self.assertIn(link, READING_SOURCES)
-                else:
-                    self.assertFalse(destination.scheme or destination.path)
-                    self.assertIn(unquote(destination.fragment), self.page.ids)
+        for path, page in self.pages.items():
+            self.assertEqual(len(page.ids), len(set(page.ids)))
+            for link in page.links:
+                with self.subTest(page=path.name, link=link):
+                    self.assertTrue(link)
+                    destination = urlsplit(link)
+                    if destination.netloc:
+                        self.assertEqual(destination.scheme, "https")
+                        self.assertIn(link, READING_SOURCES)
+                        continue
+                    self.assertFalse(destination.scheme)
+                    if destination.path:
+                        target = self._local_asset(path, destination.path)
+                        if target.is_dir():
+                            target /= "index.html"
+                        self.assertIn(target, self.pages)
+                    else:
+                        target = path
+                    if destination.fragment:
+                        self.assertIn(unquote(destination.fragment), self.pages[target].ids)
+
+    def _local_asset(self, page: Path, url_path: str) -> Path:
+        relative_path = Path(unquote(url_path))
+        self.assertFalse(relative_path.is_absolute())
+        target = (page.parent / relative_path).resolve()
+        self.assertTrue(target.is_relative_to(ROOT))
+        return target
 
     def test_guide_and_academy_are_linked_with_sources(self):
         for fragment in ("#guide", "#academy"):
@@ -87,18 +110,20 @@ class SiteSmokeTest(unittest.TestCase):
         self.assertIn("Both game editions are still in development.", self.html)
 
     def test_assets_exist_and_have_text_alternatives(self):
-        for asset in self.page.assets:
-            with self.subTest(asset=asset):
-                self.assertTrue((ROOT / asset).is_file())
-        for image in self.page.images:
-            self.assertTrue(image.get("alt"))
-            self.assertGreater(int(image["width"]), 0)
-            self.assertGreater(int(image["height"]), 0)
+        for path, page in self.pages.items():
+            for asset in page.assets:
+                with self.subTest(page=path.name, asset=asset):
+                    self.assertTrue(self._local_asset(path, asset).is_file())
+            for image in page.images:
+                self.assertTrue(image.get("alt"))
+                self.assertGreater(int(image["width"]), 0)
+                self.assertGreater(int(image["height"]), 0)
 
     def test_semantics(self):
-        self.assertEqual(1, self.page.headings.count(1))
-        self.assertEqual(1, self.page.headings[0])
-        self.assertTrue(all(right <= left + 1 for left, right in zip(self.page.headings, self.page.headings[1:])))
+        for page in self.pages.values():
+            self.assertEqual(1, page.headings.count(1))
+            self.assertEqual(1, page.headings[0])
+            self.assertTrue(all(right <= left + 1 for left, right in zip(page.headings, page.headings[1:])))
         self.assertGreater(self.page.details, 0)
         self.assertEqual(self.page.details, self.page.summaries)
 
@@ -107,6 +132,13 @@ class SiteSmokeTest(unittest.TestCase):
         self.assertEqual(2, self.html.count("Not yet released"))
         self.assertIn("Original concept art", self.html)
         self.assertNotIn("Download now", self.html)
+
+    def test_dedicated_edition_pages_report_prerelease_status(self):
+        for page in EDITION_PAGES:
+            with self.subTest(page=page):
+                self.assertIn(page, self.page.links)
+                self.assertIn("Not yet released", self.copy[ROOT / page])
+                self.assertIn("Verified internally", self.copy[ROOT / page])
 
 
 if __name__ == "__main__":

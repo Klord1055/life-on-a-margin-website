@@ -91,6 +91,17 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
 .edition-kind { color: var(--gold); font-size: .78rem; font-weight: 650; text-transform: uppercase; letter-spacing: .11em; }
 .edition h3 { font-size: clamp(1.3rem, 2.8vw, 1.86rem); }
 .release-status { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 16px; color: var(--green); font-size: .8rem; }
+.edition-link { align-self: start; padding-block: 8px; color: var(--gold); font-weight: 650; text-underline-offset: 4px; }
+.edition-detail-hero { background: radial-gradient(ellipse at 75% 32%, var(--panel), var(--midnight) 78%); border-bottom: 1px solid var(--line); }
+.edition-detail-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: start; gap: clamp(28px, 6vw, 88px); padding-block: clamp(42px, 8vw, 106px); }
+.edition-detail-hero h1 { max-width: 14ch; font-size: clamp(2.9rem, 6.4vw, 6.1rem); margin-bottom: 21px; }
+.edition-lead { max-width: 40ch; font-size: clamp(1.1rem, 2vw, 1.3rem); }
+.edition-availability { border: 1px solid var(--line); padding: clamp(18px, 3vw, 32px); background: var(--deep); }
+.edition-availability h2 { font-size: clamp(1.5rem, 2.7vw, 2rem); }
+.edition-availability .release-status { font-size: .9rem; margin-block: 12px; padding: 0; }
+.edition-availability p:not(.release-status), .edition-detail-info p, .edition-detail-info dd { color: var(--muted); }
+.edition-availability .button, .edition-detail-info p { margin-top: 16px; }
+.edition-detail-info a { color: var(--gold); text-underline-offset: 3px; }
 .faq-inner { display: grid; grid-template-columns: 1fr 1.24fr; gap: 34px; }
 .guide-inner { display: grid; grid-template-columns: 1fr 1.24fr; gap: 34px; }
 .guide-inner h2, .faq-inner h2 { margin: 9px 0 12px; }
@@ -162,6 +173,7 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
   h1 { font-size: clamp(3.55rem, 14vw, 5.5rem); }
   .hero-art { box-shadow: 6px 6px 0 #07130f70; }
   .section-intro, .features, .edition-grid, .guide-inner, .academy-grid, .updates-inner, .faq-inner, .support-grid { grid-template-columns: 1fr; gap: 13px; }
+  .edition-detail-grid { grid-template-columns: minmax(0, 1fr); }
   .section-intro { margin-bottom: 20px; }
   .guide-inner, .updates-inner, .faq-inner { row-gap: 25px; }
   .site-footer p:nth-child(2) { flex: 1 0 100%; }
@@ -169,6 +181,6 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
 }
 
 @media (forced-colors: active) {
-  .button, .mark, .edition, .academy-grid article, .support-grid article, .guide-search input { border: 1px solid ButtonText; }
+  .button, .mark, .edition, .edition-availability, .academy-grid article, .support-grid article, .guide-search input { border: 1px solid ButtonText; }
   .features article { border-top-color: ButtonText; }
 }

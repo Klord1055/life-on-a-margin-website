@@ -1,6 +1,17 @@
 const { test, expect } = require("@playwright/test");
 const { source: axeSource } = require("axe-core");
 
+async function expectNoAccessibilityViolations(page) {
+  await page.addScriptTag({ content: axeSource });
+  const violations = await page.evaluate(async () => {
+    const result = await window.axe.run({
+      runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] }
+    });
+    return result.violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target }) => target) }));
+  });
+  expect(violations).toEqual([]);
+}
+
 test("main navigation, release status and hero artwork work", async ({ page }) => {
   const failed = [];
   page.on("pageerror", (error) => failed.push(error.message));
@@ -70,6 +81,57 @@ test("development updates and site help lead to the matching resources", async (
   await expect(page.getByText("Not yet released", { exact: true })).toHaveCount(2);
 });
 
+for (const edition of [
+  {
+    title: "Life on a Margin: The First Trade",
+    details: "Browser demo details",
+    other: "Downloadable game details",
+    url: /\/editions\/first-trade\.html$/,
+    otherUrl: /\/editions\/life-on-a-margin\.html$/,
+    label: "Free browser demo",
+    verified: /internal browser build resumed the same universe/
+  },
+  {
+    title: "Life on a Margin",
+    details: "Downloadable game details",
+    other: "Browser demo details",
+    url: /\/editions\/life-on-a-margin\.html$/,
+    otherUrl: /\/editions\/first-trade\.html$/,
+    label: "Free downloadable game",
+    verified: /internal desktop save test restored a universe/
+  }
+]) {
+  test(`${edition.label} details and prerelease navigation`, async ({ page }) => {
+    await page.goto("./#editions");
+    await page.getByRole("link", { name: edition.details }).click();
+    await expect(page).toHaveURL(edition.url);
+    await expect(page).toHaveTitle(edition.title);
+    await expect(page.getByRole("heading", { level: 1, name: edition.title })).toBeVisible();
+    await expect(page.getByText(edition.label, { exact: true })).toBeVisible();
+    await expect(page.getByText(edition.verified)).toBeVisible();
+    const status = page.getByRole("region", { name: "Release status" });
+    await expect(status.getByText("Not yet released")).toBeVisible();
+    await expect(page.getByRole("link", { name: /^(Play now|Download now)$/i })).toHaveCount(0);
+    expect(await page.locator("html").evaluate((node) => node.scrollWidth - node.clientWidth)).toBe(0);
+    await expectNoAccessibilityViolations(page);
+
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("main")).toBeFocused();
+
+    await page.getByRole("link", { name: "See release status" }).click();
+    await expect(page).toHaveURL(/#editions$/);
+    await page.goBack();
+    await page.getByRole("navigation").getByRole("link", { name: "Player guide" }).click();
+    await expect(page).toHaveURL(/#guide$/);
+    await expect(page.getByRole("heading", { name: "Getting started" })).toBeVisible();
+    await page.goBack();
+    await page.getByRole("link", { name: edition.other }).click();
+    await expect(page).toHaveURL(edition.otherUrl);
+  });
+}
+
 test("skip navigation and answer disclosures work with keyboard input", async ({ page }) => {
   await page.goto("./");
   await page.keyboard.press("Tab");
@@ -135,12 +197,5 @@ test.describe("without JavaScript", () => {
 test("the landing page passes an automated accessibility scan", async ({ page }) => {
   await page.goto("./");
   await page.getByText("Show the cash flow", { exact: true }).click();
-  await page.addScriptTag({ content: axeSource });
-  const violations = await page.evaluate(async () => {
-    const result = await window.axe.run({
-      runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] }
-    });
-    return result.violations.map(({ id, nodes }) => ({ id, nodes: nodes.map(({ target }) => target) }));
-  });
-  expect(violations).toEqual([]);
+  await expectNoAccessibilityViolations(page);
 });
