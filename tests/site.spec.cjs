@@ -15,6 +15,7 @@ test("main navigation, release status and hero artwork work", async ({ page }) =
     "Editions": "#editions",
     "Player guide": "#guide",
     "Academy": "#academy",
+    "Updates": "#updates",
     "FAQ": "#faq"
   })) {
     await nav.getByRole("link", { name: label, exact: true }).click();
@@ -39,6 +40,27 @@ test("main navigation, release status and hero artwork work", async ({ page }) =
   }));
   expect(dimensions.contentWidth).toBeLessThanOrEqual(dimensions.width);
   expect(failed).toEqual([]);
+});
+
+test("development updates and site help lead to the matching resources", async ({ page }) => {
+  await page.goto("./#updates");
+  const updates = page.getByRole("region", { name: "Development updates" });
+  await expect(updates.getByRole("heading", { name: "Internal save and resume test" })).toBeVisible();
+  await expect(updates.getByText(/Both editions are still in development/)).toBeVisible();
+  await expect(updates.locator("time").first()).toHaveAttribute("datetime", "2026-11-26");
+  await updates.getByRole("link", { name: "Try the exercises" }).click();
+  await expect(page).toHaveURL(/#academy$/);
+
+  await page.getByRole("link", { name: "Site help", exact: true }).click();
+  await expect(page).toHaveURL(/#support$/);
+  const support = page.getByRole("region", { name: "Help with the site" });
+  await expect(support.getByRole("heading", { name: "Images and text" })).toBeVisible();
+  await support.getByRole("link", { name: "Go to the FAQ" }).click();
+  await expect(page).toHaveURL(/#faq$/);
+  await page.goBack();
+  await support.getByRole("link", { name: "Check release status" }).click();
+  await expect(page).toHaveURL(/#editions$/);
+  await expect(page.getByText("Not yet released", { exact: true })).toHaveCount(2);
 });
 
 test("skip navigation and answer disclosures work with keyboard input", async ({ page }) => {
