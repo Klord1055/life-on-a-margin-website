@@ -16,6 +16,7 @@ test("main navigation, release status and hero artwork work", async ({ page }) =
     "Player guide": "#guide",
     "Academy": "#academy",
     "Updates": "#updates",
+    "Engineering": "#engineering",
     "FAQ": "#faq"
   })) {
     await nav.getByRole("link", { name: label, exact: true }).click();
@@ -45,6 +46,12 @@ test("main navigation, release status and hero artwork work", async ({ page }) =
 test("development updates and site help lead to the matching resources", async ({ page }) => {
   await page.goto("./#updates");
   const updates = page.getByRole("region", { name: "Development updates" });
+  await page.getByRole("link", { name: "Engineering", exact: true }).click();
+  await expect(page).toHaveURL(/#engineering$/);
+  const notes = page.getByRole("region", { name: "Engineering notes" });
+  await expect(notes.getByText(/AI-assisted engineering/)).toBeVisible();
+  await notes.getByRole("link", { name: "Read verified milestones" }).click();
+  await expect(page).toHaveURL(/#updates$/);
   await expect(updates.getByRole("heading", { name: "Internal save and resume test" })).toBeVisible();
   await expect(updates.getByText(/Both editions are still in development/)).toBeVisible();
   await expect(updates.locator("time").first()).toHaveAttribute("datetime", "2026-11-26");

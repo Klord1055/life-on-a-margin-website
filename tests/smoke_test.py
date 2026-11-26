@@ -71,12 +71,18 @@ class SiteSmokeTest(unittest.TestCase):
         self.assertTrue(READING_SOURCES.issubset(self.page.links))
 
     def test_development_updates_and_help_are_linked(self):
-        for fragment in ("#updates", "#support"):
+        for fragment in ("#updates", "#support", "#engineering"):
             self.assertIn(fragment, self.page.links)
         self.assertGreaterEqual(len(self.page.update_dates), 1)
         self.assertTrue(all(self.page.update_dates))
         self.assertIn("Internal save and resume test", self.html)
         self.assertIn("Both editions are still in development.", self.html)
+
+    def test_engineering_notes_cite_verifiable_scope(self):
+        self.assertIn('id="engineering-title"', self.html)
+        self.assertIn("Klord Fernandez Cayetano leads the product direction", self.html)
+        self.assertIn("AI-assisted engineering", self.html)
+        self.assertIn("Both game editions are still in development.", self.html)
 
     def test_assets_exist_and_have_text_alternatives(self):
         for asset in self.page.assets:
