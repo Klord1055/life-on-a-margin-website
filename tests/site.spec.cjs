@@ -81,6 +81,31 @@ test("development updates and site help lead to the matching resources", async (
   await expect(page.getByText("Not yet released", { exact: true })).toHaveCount(2);
 });
 
+test("the Chicago showcase swaps rendered districts with working keyboard controls", async ({ page }) => {
+  await page.goto("./#game");
+  const controls = page.getByRole("group", { name: "Choose a district view" });
+  const river = controls.getByRole("button", { name: "River District" });
+  const market = controls.getByRole("button", { name: "West Market" });
+  const riverView = page.locator("#river-district-view");
+  const marketView = page.locator("#west-market-view");
+
+  await expect(river).toHaveAttribute("aria-pressed", "true");
+  await expect(riverView.getByRole("img")).toHaveJSProperty("naturalWidth", 744);
+  await expect(marketView).toBeHidden();
+  await market.focus();
+  await market.press("Space");
+  await expect(market).toBeFocused();
+  await expect(market).toHaveAttribute("aria-pressed", "true");
+  await expect(marketView.getByRole("img")).toHaveJSProperty("naturalWidth", 744);
+  await expect(marketView).toBeVisible();
+  await expect(riverView).toBeHidden();
+
+  await river.click();
+  await expect(riverView).toBeVisible();
+  await expect(market).toHaveAttribute("aria-pressed", "false");
+  expect(await page.locator("html").evaluate((node) => node.scrollWidth - node.clientWidth)).toBe(0);
+});
+
 for (const edition of [
   {
     title: "Life on a Margin: The First Trade",
@@ -89,7 +114,8 @@ for (const edition of [
     url: /\/editions\/first-trade\.html$/,
     otherUrl: /\/editions\/life-on-a-margin\.html$/,
     label: "Free browser demo",
-    verified: /internal browser build resumed the same universe/
+    verified: /internal browser build resumed the same universe/,
+    scene: "Chicago River District"
   },
   {
     title: "Life on a Margin",
@@ -98,7 +124,8 @@ for (const edition of [
     url: /\/editions\/life-on-a-margin\.html$/,
     otherUrl: /\/editions\/first-trade\.html$/,
     label: "Free downloadable game",
-    verified: /internal desktop save test restored a universe/
+    verified: /internal desktop save test restored a universe/,
+    scene: "West Market"
   }
 ]) {
   test(`${edition.label} details and prerelease navigation`, async ({ page }) => {
@@ -109,6 +136,9 @@ for (const edition of [
     await expect(page.getByRole("heading", { level: 1, name: edition.title })).toBeVisible();
     await expect(page.getByText(edition.label, { exact: true })).toBeVisible();
     await expect(page.getByText(edition.verified)).toBeVisible();
+    const capture = page.getByRole("figure").filter({ hasText: edition.scene });
+    await expect(capture.getByText("Development gameplay")).toBeVisible();
+    await expect(capture.getByRole("img")).toHaveJSProperty("naturalWidth", 744);
     const status = page.getByRole("region", { name: "Release status" });
     await expect(status.getByText("Not yet released")).toBeVisible();
     await expect(page.getByRole("link", { name: /^(Play now|Download now)$/i })).toHaveCount(0);
@@ -191,6 +221,12 @@ test.describe("without JavaScript", () => {
     await page.goto("./#guide");
     await expect(page.getByRole("search", { name: "Player guide" })).toBeHidden();
     await expect(page.locator("#guide-results > div").filter({ visible: true })).toHaveCount(3);
+  });
+
+  test("both Chicago district views remain available", async ({ page }) => {
+    await page.goto("./#game");
+    await expect(page.getByRole("group", { name: "Choose a district view" })).toBeHidden();
+    await expect(page.locator(".district-view").filter({ visible: true })).toHaveCount(2);
   });
 });
 

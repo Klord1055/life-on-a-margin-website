@@ -8,6 +8,7 @@
   <title>Life on a Margin</title>
   <link rel="stylesheet" href="styles.css">
   <script src="guide-search.js" defer></script>
+  <script src="district-preview.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -59,26 +60,29 @@
 
     <div class="game-band" id="game">
       <section class="frame game-section" aria-labelledby="game-title">
-        <div class="section-intro">
-          <h2 id="game-title">What will you build<br>with <em>one life?</em></h2>
-          <p>Start from nothing in an evolving American economy. What you do for work, how much risk you take and who you make time for can shape the years that follow.</p>
+        <div class="section-intro world-intro">
+          <h2 id="game-title">A walk through <em>Chicago.</em></h2>
+          <p>Start in a dusty suit, learn the work and decide when to take a financial risk. The city keeps moving after the market closes.</p>
         </div>
-        <div class="features">
-          <article>
-            <span class="mini-mark mini-market" aria-hidden="true"></span>
-            <h3>Trade in a changing economy</h3>
-            <p>Follow companies, manage positions and weigh exposure to market cycles. Different economic timelines are intended to change which decisions look promising.</p>
-          </article>
-          <article>
-            <span class="mini-mark mini-career" aria-hidden="true"></span>
-            <h3>Earn your next opportunity</h3>
-            <p>Work through assignments inspired by real finance roles, from valuing a business to evaluating risk and making sense of company results.</p>
-          </article>
-          <article>
-            <span class="mini-mark mini-life" aria-hidden="true"></span>
-            <h3>Live beyond the balance sheet</h3>
-            <p>Explore districts, form relationships and make trade-offs between income, time and the life you want to lead.</p>
-          </article>
+        <div class="district-preview" data-district-preview>
+          <div class="district-controls" role="group" aria-label="Choose a district view" hidden>
+            <button aria-controls="river-district-view" aria-pressed="true" type="button">River District</button>
+            <button aria-controls="west-market-view" aria-pressed="false" type="button">West Market</button>
+          </div>
+          <figure class="district-view" id="river-district-view">
+            <img src="assets/gameplay/river-district.webp" alt="An overhead pixel-art street in Chicago with storefronts, passing cars and a suited character on the sidewalk." width="744" height="314" loading="lazy">
+            <figcaption>
+              <div><p class="capture-label">Development gameplay</p><h3>Chicago River District</h3></div>
+              <p>Take the first shift at your work desk, check prices and meet neighbors on their daily rounds.</p>
+            </figcaption>
+          </figure>
+          <figure class="district-view capture-west-market" id="west-market-view">
+            <img src="assets/gameplay/west-market.webp" alt="A suited character outside West Market Station, with a brick bakery and neighboring storefront along the block." width="744" height="314" loading="lazy">
+            <figcaption>
+              <div><p class="capture-label">Development gameplay</p><h3>West Market</h3></div>
+              <p>Take the train across town to a quieter block of shops, a garden and the local credit office.</p>
+            </figcaption>
+          </figure>
         </div>
       </section>
     </div>

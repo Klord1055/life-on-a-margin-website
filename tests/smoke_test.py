@@ -133,6 +133,12 @@ class SiteSmokeTest(unittest.TestCase):
         self.assertIn("Original concept art", self.html)
         self.assertNotIn("Download now", self.html)
 
+    def test_gameplay_captures_are_labeled_on_all_three_pages(self):
+        for path, page in self.pages.items():
+            with self.subTest(page=path.name):
+                self.assertIn("Development gameplay", self.copy[path])
+                self.assertTrue(any("gameplay/" in image["src"] for image in page.images))
+
     def test_dedicated_edition_pages_report_prerelease_status(self):
         for page in EDITION_PAGES:
             with self.subTest(page=page):
