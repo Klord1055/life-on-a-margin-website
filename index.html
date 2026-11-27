@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="guide-search.js" defer></script>
   <script src="district-preview.js" defer></script>
+  <script src="academy-supplies.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -150,7 +151,7 @@
       <p class="eyebrow">Financial Academy</p>
       <div class="section-intro">
         <h2 id="academy-title">Practice the <em>decisions.</em></h2>
-        <p>Three fictional examples connect finance concepts with decisions you might face in Life on a Margin. No account is needed.</p>
+        <p>Work through fictional examples of cash flow, investing and spending decisions. No account is needed.</p>
       </div>
       <div class="academy-grid">
         <article>
@@ -178,6 +179,37 @@
           </details>
         </article>
       </div>
+      <article class="academy-supplier" aria-labelledby="supplier-title">
+        <div class="supplier-intro">
+          <h3 id="supplier-title">Buying in bulk</h3>
+          <p>A small shop needs supplies for one order. It can buy only what it needs for $4.80 each, or pay $360 upfront for a box of 100 at $3.60 each.</p>
+        </div>
+        <form id="supplier-form" aria-labelledby="supplier-title" novalidate hidden>
+          <div class="supplier-fields">
+            <div>
+              <label for="supplier-quantity">Units needed</label>
+              <span id="supplier-quantity-help">1 to 100 whole units</span>
+              <input id="supplier-quantity" type="text" inputmode="numeric" autocomplete="off" maxlength="12" value="60" aria-describedby="supplier-quantity-help">
+            </div>
+            <div>
+              <label for="supplier-cash">Cash available ($)</label>
+              <span id="supplier-cash-help">Up to two decimal places</span>
+              <input id="supplier-cash" type="text" inputmode="decimal" autocomplete="off" maxlength="12" value="350.00" aria-describedby="supplier-cash-help">
+            </div>
+          </div>
+          <p id="supplier-error" class="supplier-error" role="alert" hidden></p>
+          <button type="submit" class="button button-primary">Compare purchase costs</button>
+        </form>
+        <div id="supplier-result" class="supplier-result" role="status" aria-atomic="true" hidden>
+          <dl>
+            <div><dt>Buy as needed</dt><dd id="supplier-exact"></dd></div>
+            <div><dt>Buy 100 upfront</dt><dd id="supplier-bulk"></dd></div>
+          </dl>
+          <p id="supplier-comparison"></p>
+        </div>
+        <p id="supplier-example" class="supplier-result">For an order of 60 units and $350 on hand, buying as needed costs $288 and leaves $62. The box costs $360, which is $10 more than the shop has.</p>
+        <p class="supplier-note">Compare the total due now with the cash on hand. Extra units only help if the shop can use or sell them later.</p>
+      </article>
       <nav class="academy-references" aria-label="Further reading">
         <a href="https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements">SEC financial statement guide</a>
         <a href="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator">Investor.gov compound interest calculator</a>

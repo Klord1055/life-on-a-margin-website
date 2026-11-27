@@ -214,6 +214,47 @@ test("the player guide filters topics locally and recovers from an empty search 
   await expect(topics.filter({ visible: true })).toHaveCount(3);
 });
 
+test("the Academy compares bulk purchase costs and remaining cash in cents", async ({ page }) => {
+  await page.goto("./#academy");
+  const lesson = page.getByRole("article", { name: "Buying in bulk" });
+  const quantity = lesson.getByRole("textbox", { name: /Units needed/ });
+  const cash = lesson.getByRole("textbox", { name: /Cash available/ });
+  const output = lesson.getByRole("status");
+  await expect(output).toContainText("$288.00 due · $62.00 left");
+  await expect(output).toContainText("$360.00 due · $10.00 short");
+
+  await quantity.fill("76");
+  await cash.fill("360.01");
+  await cash.press("Enter");
+  await expect(page).toHaveURL(/#academy$/);
+  await expect(output).toContainText("$364.80 due · $4.79 short");
+  await expect(output).toContainText("$360.00 due · $0.01 left");
+  await expect(output).toContainText("The box costs $4.80 less.");
+
+  await quantity.fill("75");
+  await cash.fill("360");
+  await lesson.getByRole("button", { name: "Compare purchase costs" }).click();
+  await expect(output).toContainText("Both choices cost the same.");
+  await expect(output.getByText("$360.00 due · $0.00 left", { exact: true })).toHaveCount(2);
+
+  await quantity.fill("101");
+  await quantity.press("Enter");
+  await expect(lesson.getByRole("alert")).toContainText("a whole number from 1 to 100");
+  await expect(quantity).toBeFocused();
+  await expect(quantity).toHaveAttribute("aria-invalid", "true");
+  await expect(output).toBeHidden();
+
+  await quantity.fill("1");
+  await cash.fill("50.001");
+  await cash.press("Enter");
+  await expect(lesson.getByRole("alert")).toContainText("Enter cash");
+  await expect(cash).toBeFocused();
+  await cash.fill(".05");
+  await cash.press("Enter");
+  await expect(output).toContainText("$4.80 due · $4.75 short");
+  await expect(lesson.getByRole("alert")).toBeHidden();
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
@@ -227,6 +268,13 @@ test.describe("without JavaScript", () => {
     await page.goto("./#game");
     await expect(page.getByRole("group", { name: "Choose a district view" })).toBeHidden();
     await expect(page.locator(".district-view").filter({ visible: true })).toHaveCount(2);
+  });
+
+  test("the Academy shows a worked purchase example", async ({ page }) => {
+    await page.goto("./#academy");
+    const lesson = page.getByRole("article", { name: "Buying in bulk" });
+    await expect(lesson.getByText(/buying as needed costs \$288 and leaves \$62/)).toBeVisible();
+    await expect(lesson.getByRole("button", { name: "Compare purchase costs" })).toBeHidden();
   });
 });
 

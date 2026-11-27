@@ -11,6 +11,8 @@ Life on a Margin is an open-world financial career and life simulation RPG in de
 
 The website includes an interactive Chicago district showcase, dedicated pages for both editions, a searchable getting-started guide, dated development updates and site help. The concept illustration in the homepage hero is labeled separately from the screenshots of the shared development build. Only cropped, rendered game imagery is stored in `assets/gameplay/`. The edition pages distinguish development plans from verified internal results and current release status. Both district captures and every guide topic remain readable when JavaScript is disabled. The Financial Academy has three fictional worked examples with further reading from the SEC and Investor.gov.
 
+The Academy also compares the cash cost of ordering by the unit and buying a bulk lot. The comparison runs in the browser, in integer cents, with a worked example for visitors using the site without JavaScript.
+
 ## Local preview
 
 Run `python3 -m http.server 8000` in this directory and visit `http://localhost:8000/`. The site uses HTML, CSS, a small search script and a local image. It does not need a build command.
