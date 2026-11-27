@@ -13,6 +13,8 @@ The website includes an interactive Chicago district showcase, dedicated pages f
 
 The Academy also compares the cash cost of ordering by the unit and buying a bulk lot. The comparison runs in the browser, in integer cents, with a worked example for visitors using the site without JavaScript.
 
+The first-session walkthrough is linked from both edition pages. It covers movement, character creation, work, a trade decision and keeping a save backup, with the tested development controls identified as provisional.
+
 ## Local preview
 
 Run `python3 -m http.server 8000` in this directory and visit `http://localhost:8000/`. The site uses HTML, CSS, a small search script and a local image. It does not need a build command.
@@ -28,6 +30,6 @@ npx playwright install chromium
 npm test
 ```
 
-The browser suite checks an actual site preview at desktop, tablet and narrow mobile sizes. It exercises navigation, edition pages and their release links, update and help links, guide search with and without JavaScript, keyboard disclosures, release copy, asset loading, page width and automated axe scans. For another Chromium installation, set `CHROMIUM_PATH` to its executable or `PLAYWRIGHT_CHANNEL` to its named Playwright channel. Set `PYTHON` to override the local preview server's Python executable.
+The browser suite checks an actual site preview at desktop, tablet and narrow mobile sizes. It exercises navigation, edition pages and their release links, update and help links, the first-session walkthrough, guide search with and without JavaScript, keyboard disclosures, release copy, asset loading, page width and automated axe scans. For another Chromium installation, set `CHROMIUM_PATH` to its executable or `PLAYWRIGHT_CHANNEL` to its named Playwright channel. Set `PYTHON` to override the local preview server's Python executable.
 
 Set `WEBSITE_URL` to the deployed base URL to run the same browser checks against a deployment without starting a local server. These checks describe the prerelease website. Released builds, public distribution links, and full cross-browser and manual accessibility validation require separate checks.

@@ -157,6 +157,10 @@ for (const edition of [
     await expect(page).toHaveURL(/#guide$/);
     await expect(page.getByRole("heading", { name: "Getting started" })).toBeVisible();
     await page.goBack();
+    await page.getByRole("link", { name: "first-session walkthrough", exact: true }).click();
+    await expect(page).toHaveURL(/#first-session$/);
+    await expect(page.getByRole("region", { name: "Your first session" })).toBeInViewport();
+    await page.goBack();
     await page.getByRole("link", { name: edition.other }).click();
     await expect(page).toHaveURL(edition.otherUrl);
   });
@@ -255,6 +259,22 @@ test("the Academy compares bulk purchase costs and remaining cash in cents", asy
   await expect(lesson.getByRole("alert")).toBeHidden();
 });
 
+test("the first-session guide connects release-safe instructions and practice", async ({ page }) => {
+  await page.goto("./#guide");
+  const walkthroughLink = page.getByRole("link", { name: "Read the first-session walkthrough" });
+  await walkthroughLink.focus();
+  await walkthroughLink.press("Enter");
+  await expect(page).toHaveURL(/#first-session$/);
+  const walkthrough = page.getByRole("region", { name: "Your first session" });
+  await expect(walkthrough).toBeInViewport();
+  await expect(walkthrough.getByText(/tested development build/)).toBeVisible();
+  await expect(walkthrough.getByRole("listitem")).toHaveCount(4);
+  await expect(walkthrough.getByText("Export save", { exact: true })).toBeVisible();
+  expect(await page.locator("html").evaluate((node) => node.scrollWidth - node.clientWidth)).toBe(0);
+  await walkthrough.getByRole("link", { name: "Practice weighing a purchase" }).click();
+  await expect(page).toHaveURL(/#academy$/);
+});
+
 test.describe("without JavaScript", () => {
   test.use({ javaScriptEnabled: false });
 
@@ -262,6 +282,7 @@ test.describe("without JavaScript", () => {
     await page.goto("./#guide");
     await expect(page.getByRole("search", { name: "Player guide" })).toBeHidden();
     await expect(page.locator("#guide-results > div").filter({ visible: true })).toHaveCount(3);
+    await expect(page.getByRole("region", { name: "Your first session" }).getByRole("listitem")).toHaveCount(4);
   });
 
   test("both Chicago district views remain available", async ({ page }) => {

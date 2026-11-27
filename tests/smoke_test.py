@@ -95,6 +95,12 @@ class SiteSmokeTest(unittest.TestCase):
             self.assertIn(fragment, self.page.links)
         self.assertTrue(READING_SOURCES.issubset(self.page.links))
 
+    def test_first_session_walkthrough_is_reachable_from_each_edition(self):
+        self.assertIn("first-session", self.page.ids)
+        self.assertIn("These steps describe a tested development build", self.html)
+        for edition in EDITION_PAGES:
+            self.assertIn("../#first-session", self.pages[ROOT / edition].links)
+
     def test_bulk_purchase_example_works_without_the_calculator(self):
         self.assertIn("academy-supplies.js", self.page.assets)
         self.assertIn("supplier-example", self.page.ids)
