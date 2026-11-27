@@ -9,7 +9,7 @@ Life on a Margin is an open-world financial career and life simulation RPG in de
 | Life on a Margin: The First Trade | Free browser demo | In development |
 | Life on a Margin | Downloadable game, with Windows as the first target | In development |
 
-The website includes an overview, dedicated pages for both editions, a searchable getting-started guide, dated development updates and site help. The edition pages distinguish development plans from verified internal results and current release status. Guide search runs in the browser, and all topics remain readable when JavaScript is disabled. The Financial Academy has three fictional worked examples with further reading from the SEC and Investor.gov. Its artwork is original concept art. Gameplay media and release links will be added after verification.
+The website includes an interactive Chicago district showcase, dedicated pages for both editions, a searchable getting-started guide, dated development updates and site help. The concept illustration in the homepage hero is labeled separately from the screenshots of the shared development build. Only cropped, rendered game imagery is stored in `assets/gameplay/`. The edition pages distinguish development plans from verified internal results and current release status. Both district captures and every guide topic remain readable when JavaScript is disabled. The Financial Academy has three fictional worked examples with further reading from the SEC and Investor.gov.
 
 ## Local preview
 
