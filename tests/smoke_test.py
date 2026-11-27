@@ -95,6 +95,11 @@ class SiteSmokeTest(unittest.TestCase):
             self.assertIn(fragment, self.page.links)
         self.assertTrue(READING_SOURCES.issubset(self.page.links))
 
+    def test_bulk_purchase_example_works_without_the_calculator(self):
+        self.assertIn("academy-supplies.js", self.page.assets)
+        self.assertIn("supplier-example", self.page.ids)
+        self.assertIn("buying as needed costs $288 and leaves $62", self.html)
+
     def test_development_updates_and_help_are_linked(self):
         for fragment in ("#updates", "#support", "#engineering"):
             self.assertIn(fragment, self.page.links)
