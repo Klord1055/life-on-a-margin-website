@@ -116,7 +116,7 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
 .faq-inner { display: grid; grid-template-columns: 1fr 1.24fr; gap: 34px; }
 .guide-inner { display: grid; grid-template-columns: 1fr 1.24fr; gap: 34px; }
 .guide-inner h2, .faq-inner h2 { margin: 9px 0 12px; }
-.guide-inner > div > p:last-child, .guide-list dd, .academy-grid article > p, .academy-grid details p { color: var(--muted); }
+.guide-inner > div > p:not(.eyebrow, .guide-status), .guide-list dd, .academy-grid article > p, .academy-grid details p { color: var(--muted); }
 .guide-status { color: var(--green); font-size: .9rem; margin-bottom: 11px; }
 .guide-inner a, .academy-references a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
 .guide-list { margin: 0; }
@@ -131,6 +131,20 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
 .guide-search input::placeholder { color: var(--muted); }
 .guide-search button { background: var(--panel); color: var(--ivory); cursor: pointer; }
 .guide-search-status { color: var(--muted); font-size: .875rem; min-height: 1.55em; margin-top: 7px; }
+.guide-jump { display: inline-block; margin-top: 12px; padding-block: 6px; }
+.guide-session { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(24px, 5vw, 65px); padding: clamp(16px, 3.5vw, 42px); border: 1px solid var(--line); background: var(--midnight); }
+.session-overview h3 { font: 500 clamp(1.75rem, 3.8vw, 3.1rem)/1 var(--serif); margin-bottom: 12px; }
+.session-overview > p, .session-controls dd, .session-steps p { color: var(--muted); }
+.session-controls { margin: 20px 0 0; }
+.session-controls > div { padding-block: 10px; border-top: 1px solid var(--line); }
+.session-controls dt, .session-steps h4 { font-weight: 650; }
+.session-controls dd { margin: 4px 0 0; }
+.session-controls kbd { display: inline-block; min-width: 1.5em; padding-inline: .28em; background: var(--panel); border: 1px solid var(--line); color: var(--gold); font: 650 .88rem/1.35 var(--sans); text-align: center; }
+.session-steps { margin: 0; padding-inline-start: 1.55em; }
+.session-steps > li { padding-inline-start: .3em; }
+.session-steps > li + li { margin-top: 15px; }
+.session-steps > li::marker { color: var(--gold); font-variant-numeric: tabular-nums; font-weight: 700; }
+.session-steps h4 { margin: 0 0 4px; font-size: 1rem; }
 .academy-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
 .academy-grid article { padding: 21px; border: 1px solid var(--line); background: var(--panel); }
 .academy-grid h3 { font: 500 1.3rem/1.2 var(--serif); margin-bottom: 8px; }
@@ -208,6 +222,7 @@ h2 { font: 500 clamp(2.2rem, 4.4vw, 4.35rem)/1 var(--serif); letter-spacing: -.0
   h1 { font-size: clamp(3.55rem, 14vw, 5.5rem); }
   .hero-art { box-shadow: 6px 6px 0 #07130f70; }
   .section-intro, .edition-grid, .guide-inner, .academy-grid, .updates-inner, .faq-inner, .support-grid { grid-template-columns: 1fr; gap: 13px; }
+  .guide-session { grid-template-columns: minmax(0, 1fr); }
   .edition-detail-grid { grid-template-columns: minmax(0, 1fr); }
   .world-intro > p { justify-self: start; }
   .district-view img { height: clamp(168px, 53vw, 280px); object-fit: cover; object-position: 43% center; }
